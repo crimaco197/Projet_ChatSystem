@@ -1,4 +1,4 @@
-package org;
+package chatSystem;
 
 import java.io.IOException;
 import java.net.DatagramPacket;
