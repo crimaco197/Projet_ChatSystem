@@ -28,13 +28,13 @@ public class ReceiveMessage {
         int senderPort = receivePacket.getPort();
         System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : "+  message );
 
-        if(message.startsWith("New_User:")){
+        //if(message.startsWith("New_User:")){
             if(Activusers.getContacts().contains(message.substring(10))){
                 Activusers.adduser(message, senderAddress);
                 Envoi.sendmessage(8886 , receivePacket.getAddress());
-                
+                System.out.println(Activusers.getContacts());
 
-            }
+          //  }
 
         }
 
