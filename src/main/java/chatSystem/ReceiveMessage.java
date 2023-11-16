@@ -10,13 +10,14 @@ public class ReceiveMessage {
    private DatagramSocket socket ;
    private DatagramPacket receivePacket ;
    private static ContactDiscovery Activusers ;
-   private SendMessage Envoi ;
+   private Utilisateur me ;
 
 
-   public ReceiveMessage(int port) throws SocketException{
+   public ReceiveMessage(int port, Utilisateur user) throws SocketException{
     socket = new DatagramSocket(port);
     receivePacket = new DatagramPacket(new byte[1024], 1024);
     Activusers = new ContactDiscovery();
+    me = user;
   }
 
   public void run() throws IOException{
@@ -28,13 +29,13 @@ public class ReceiveMessage {
         int senderPort = receivePacket.getPort();
         System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : "+  message );
 
-        //if(message.startsWith("New_User:")){
-            if(Activusers.getContacts().contains(message.substring(10))){
+        if(message.startsWith("New_User:")){
+            if(!Activusers.getContacts().contains(message.substring(10))){
                 Activusers.adduser(message, senderAddress);
-                Envoi.sendmessage(8886 , receivePacket.getAddress());
+                SendMessage msg = new SendMessage(me);
+                msg.sendmessage(8886 , receivePacket.getAddress());
                 System.out.println(Activusers.getContacts());
-
-          //  }
+            }
 
         }
 

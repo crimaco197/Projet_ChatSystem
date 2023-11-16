@@ -5,13 +5,13 @@ import java.io.IOException;
 public class ChatsystemTest {
     public static void main(String[] args) {
         // Création de deux utilisateurs
-        Utilisateur user1 = new Utilisateur("User1", "192.168.1.1");
+        User me = new User("luz", "192.168.1.1");
         //Utilisateur user2 = new Utilisateur("User2", "192.168.1.2");
 
         try {
             // Instanciation des objets SendMessage et ReceiveMessage pour chaque utilisateur
-            SendMessage sendMessage1 = new SendMessage(user1);
-            ReceiveMessage receiveMessage1 = new ReceiveMessage(8888);
+            /*SendMessage sendMessage1 = new SendMessage(user1);
+            ReceiveMessage receiveMessage1 = new ReceiveMessage(8888, user1);
 
             /*SendMessage sendMessage2 = new SendMessage(user2);
             ReceiveMessage receiveMessage2 = new ReceiveMessage(8888);*/
@@ -19,7 +19,7 @@ public class ChatsystemTest {
             // Démarrage des threads de ReceiveMessage pour chaque utilisateur
             new Thread(() -> {
                 try {
-                    receiveMessage1.run();
+                    me.ReceiveMessages();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -34,13 +34,13 @@ public class ChatsystemTest {
             }).start();*/
 
             // Simulation de la connexion de l'utilisateur 1
-            sendMessage1.connect();
+            me.Connect();
 
             // Attente pour permettre à ReceiveMessage d'afficher les résultats
             Thread.sleep(2000);
 
             // Fermeture des sockets après le test
-            sendMessage1.close();
+            //sendMessage1.close();
             //sendMessage2.close();
             //receiveMessage1.close();
             //receiveMessage2.close();

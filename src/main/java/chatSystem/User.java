@@ -2,12 +2,18 @@ package chatSystem;
 
 import java.io.IOException;
 import java.net.*;
-import java.util.HashMap;
 
 public class User {
 
     String username;
-    HashMap<String,String> adresses = new HashMap<> ();
+    String IP;
+    ContactDiscovery ContactList = new ContactDiscovery();
+
+    public User(String username, String IP) {
+        this.username = username;
+        this.IP = IP;
+
+    }
 
     public void Connect()
     {
@@ -27,49 +33,48 @@ public class User {
         }
     }
 
-    public void ReceiveContacts()
-    {
+    private void SendMessage(int port, InetAddress IPadresse) throws IOException {
+        int port1 = port;
+        String message1 = "New_User_Response:" + username;
+        byte[] sendData1 = message1.getBytes();
+        DatagramPacket packet1 = new DatagramPacket(sendData1, sendData1.length, IPadresse, port1);
+        DatagramSocket socket = new DatagramSocket();
+        socket.send(packet1);
+    }
+
+        public void ReceiveMessages() throws IOException {
         int port = 1789; // Specify the port to listen on
 
         try {
             DatagramSocket socket = new DatagramSocket(port);
-            System.out.println("UDP Server is listening on port " + port);
-
-            byte[] receiveData = new byte[1024];
+            DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
 
             while (true) {
-                DatagramPacket receivePacket = new DatagramPacket(receiveData, receiveData.length);
                 socket.receive(receivePacket);
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
-
                 String senderAddress = receivePacket.getAddress().getHostAddress();
+
                 int senderPort = receivePacket.getPort();
-                System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : "+  message );
-                if(message.startsWith("New_User:")){
-                    if(adresses.containsKey(message.substring(10))){
-                        adresses.put(message, senderAddress);
-                        DatagramSocket socket1 = new DatagramSocket();
-                        int port1 = 8886;
-                        String message1 = "New_User:" + username;
-                        byte[] sendData1 = message1.getBytes();
+                System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
 
-                        DatagramPacket packet1 = new DatagramPacket(sendData1,sendData1.length, receivePacket.getAddress(),port1);
-                        socket1.send(packet1);
-                        socket1.close();
-
+                if (message.startsWith("New_User:")) {
+                    if (!ContactList.getContacts().contains(message.substring(10))) {
+                        ContactList.adduser(message, senderAddress);
+                        //User newUser = new User();
+                        //newUser.username = message.substring(10);
+                        //newUser.IP = senderAddress;
+                        SendMessage(8886, receivePacket.getAddress());
+                        System.out.println(ContactList.getContacts());
                     }
 
                 }
-
-                System.out.println(adresses);
-
+                else if(message.startsWith("New_User_Response:")) {
+                    ContactList.adduser(message, senderAddress);
+                }
             }
         } catch (IOException e) {
             e.printStackTrace();
         }
-    }
-    public static void main(String[] args) {
-
     }
 }
 
