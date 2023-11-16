@@ -16,6 +16,7 @@ public class ReceiveMessage {
    public ReceiveMessage(int port) throws SocketException{
     socket = new DatagramSocket(port);
     receivePacket = new DatagramPacket(new byte[1024], 1024);
+    Activusers = new ContactDiscovery();
   }
 
   public void run() throws IOException{
