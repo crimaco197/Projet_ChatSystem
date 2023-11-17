@@ -8,17 +8,17 @@ public class User {
     String username;
     String IP;
     ContactDiscovery ContactList = new ContactDiscovery();
+    private final DatagramSocket socket;
 
-    public User(String username, String IP) {
+    public User(String username, String IP) throws SocketException {
         this.username = username;
         this.IP = IP;
-
+        socket = new DatagramSocket();
     }
 
     public void Connect()
     {
         try {
-            DatagramSocket socket = new DatagramSocket();
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
             int port = 8888;
             String message = "New_User:" + username;
@@ -26,7 +26,6 @@ public class User {
             DatagramPacket packet = new DatagramPacket(sendData,sendData.length, broadcastAddress,port);
             socket.send(packet);
             System.out.println("Broadcast sent successfully");
-            socket.close();
 
         } catch (IOException e) {
             throw new RuntimeException(e);
@@ -38,18 +37,22 @@ public class User {
         String message1 = "New_User_Response:" + username;
         byte[] sendData1 = message1.getBytes();
         DatagramPacket packet1 = new DatagramPacket(sendData1, sendData1.length, IPadresse, port1);
-        DatagramSocket socket = new DatagramSocket();
         socket.send(packet1);
     }
 
-        public void ReceiveMessages() throws IOException {
-        int port = 1789; // Specify the port to listen on
+    public void CloseSocket(){
+        socket.close();
+    }
+    public void ReceiveMessages() throws IOException {
+        int port = 8888; // Specify the port to listen on
 
         try {
+            System.out.println("creando socket");
             DatagramSocket socket = new DatagramSocket(port);
             DatagramPacket receivePacket = new DatagramPacket(new byte[1024], 1024);
-
+            System.out.println("socket creado");
             while (true) {
+
                 socket.receive(receivePacket);
                 String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
                 String senderAddress = receivePacket.getAddress().getHostAddress();
@@ -58,18 +61,16 @@ public class User {
                 System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : " + message);
 
                 if (message.startsWith("New_User:")) {
-                    if (!ContactList.getContacts().contains(message.substring(10))) {
-                        ContactList.adduser(message, senderAddress);
-                        //User newUser = new User();
-                        //newUser.username = message.substring(10);
-                        //newUser.IP = senderAddress;
-                        SendMessage(8886, receivePacket.getAddress());
-                        System.out.println(ContactList.getContacts());
-                    }
+                    if (!ContactList.getContacts().contains(message.substring(9))) {
+                        ContactList.adduser(message.substring(9), senderAddress);
 
+                    }
+                    System.out.println("Lista Nuevos Contactos: " + ContactList.getContacts());
+                    SendMessage(8888, receivePacket.getAddress());
                 }
                 else if(message.startsWith("New_User_Response:")) {
-                    ContactList.adduser(message, senderAddress);
+                    ContactList.adduser(message.substring(18), senderAddress);
+                    System.out.println("Lista Contactos Activos: " + ContactList.getContacts());
                 }
             }
         } catch (IOException e) {
