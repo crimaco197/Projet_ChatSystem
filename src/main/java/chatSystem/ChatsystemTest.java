@@ -34,6 +34,7 @@ public class ChatsystemTest {
             // Fermeture des sockets après le test
             sendMessage1.close();
 
+
         } catch (Exception e) {
             e.printStackTrace();
         }

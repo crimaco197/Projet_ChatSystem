@@ -1,5 +1,7 @@
 package chatSystem;
 
+import java.net.InetAddress;
+import java.net.UnknownHostException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
@@ -23,5 +25,9 @@ public class ContactDiscovery {
 
     public void adduser(String username , String IPadresse){
         Contacts.put(username, IPadresse);
+    }
+
+    public InetAddress getIPAdress(String username) throws UnknownHostException {
+        return InetAddress.getByName(Contacts.get(username));
     }
 }

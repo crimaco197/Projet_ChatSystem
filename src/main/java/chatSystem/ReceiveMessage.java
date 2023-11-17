@@ -9,7 +9,7 @@ public class ReceiveMessage {
 
     private DatagramSocket socket ;
     private DatagramPacket receivePacket ;
-    private static ContactDiscovery ContactList;
+    //private static ContactDiscovery ContactList;
     private SendMessage Envoi ;
     private Utilisateur user ;
 
@@ -17,7 +17,7 @@ public class ReceiveMessage {
     public ReceiveMessage(int port , Utilisateur user) throws SocketException{
         socket = new DatagramSocket(port);
         receivePacket = new DatagramPacket(new byte[1024], 1024);
-        ContactList = new ContactDiscovery();
+        //ContactList = new ContactDiscovery();
         this.user= user;
         this.Envoi = new SendMessage(user);
     }
@@ -30,19 +30,18 @@ public class ReceiveMessage {
             String senderAddress = receivePacket.getAddress().getHostAddress();
             int senderPort = receivePacket.getPort();
             System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : "+  message );
-            System.out.println(ContactList.getContacts());
+            System.out.println(user.contactList.getContacts());
 
             if(message.startsWith("New_User:")){
-                if (!ContactList.getContacts().contains(message.substring(9))) {
-                    ContactList.adduser(message.substring(9), senderAddress);
-                    System.out.println(ContactList.getContacts());
+                if (!user.contactList.getContacts().contains(message.substring(9))) {
+                    user.contactList.adduser(message.substring(9), senderAddress);
+                    System.out.println(user.contactList.getContacts());
                 }
                 Envoi.sendmessage("New_User_Response:"+user.getusername(),8888 , receivePacket.getAddress());
             }
             if(message.startsWith("New_User_Response:")){
-
-                ContactList.adduser(message.substring(18), senderAddress);
-                System.out.println(ContactList.getContacts());
+                user.contactList.adduser(message.substring(18), senderAddress);
+                System.out.println(user.contactList.getContacts());
 
             }
             // Envoi.sendmessage("Hello",8888 , receivePacket.getAddress());
