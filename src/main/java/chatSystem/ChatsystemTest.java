@@ -7,7 +7,7 @@ import java.net.UnknownHostException;
 public class ChatsystemTest {
     public static void main(String[] args) throws UnknownHostException {
         // Création de deux utilisateurs
-        Utilisateur user1 = new Utilisateur("oussama","192.168.1.1") ;
+        Utilisateur user1 = new Utilisateur("oussama",InetAddress.getLocalHost().toString()) ;
         //Utilisateur user2 = new Utilisateur("User2", "192.168.1.2");
 
         try {

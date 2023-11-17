@@ -30,9 +30,10 @@ public class SendMessage {
         }
     }
 
-    public void sendmessage(int port, InetAddress IPadresse) throws IOException {
+
+    public void sendmessage(String message ,int port, InetAddress IPadresse) throws IOException {
         int port1 = port;
-        String message1 = "New_User:" + user.getusername();
+        String message1 = message;
         byte[] sendData1 = message1.getBytes();
         DatagramPacket packet1 = new DatagramPacket(sendData1, sendData1.length, IPadresse, port1);
         socket.send(packet1);

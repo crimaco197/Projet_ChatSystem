@@ -5,14 +5,14 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ContactDiscovery {
-    
+
     HashMap<String,String> Contacts ;
 
     public ContactDiscovery (){
-         Contacts = new HashMap<> ();
+        Contacts = new HashMap<> ();
     }
 
-     public ArrayList<String> getContacts() {
+    public ArrayList<String> getContacts() {
         ArrayList<String> listenames = new ArrayList<>();
         for (Map.Entry<String, String> entry : Contacts.entrySet()) {
             String username = entry.getKey();
