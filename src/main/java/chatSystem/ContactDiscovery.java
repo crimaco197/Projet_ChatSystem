@@ -30,4 +30,11 @@ public class ContactDiscovery {
     public InetAddress getIPAdress(String username) throws UnknownHostException {
         return InetAddress.getByName(Contacts.get(username));
     }
-}
+
+    public void removeUser(String username) {
+        Contacts.remove(username);
+    }
+
+    
+    }
+

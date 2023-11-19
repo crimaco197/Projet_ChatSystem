@@ -10,12 +10,10 @@ import java.net.SocketException;
 public class SendMessage {
     private Utilisateur user;
     private DatagramSocket socket;
-    private ContactDiscovery contacts;
-
     public SendMessage(Utilisateur user) throws SocketException {
         this.user = user;
         this.socket = new DatagramSocket();
-        this.contacts = new ContactDiscovery();
+        new ContactDiscovery();
     }
 
     public void connect() {
@@ -49,6 +47,20 @@ public class SendMessage {
         DatagramPacket packet1 = new DatagramPacket(sendData1, sendData1.length, ipAd, port1);
         socket.send(packet1);
     }
+
+    public void sendGoodbye(){
+        try{
+            InetAddress broadcastAdress = InetAddress.getByName("255.255.255.255");
+            int port = 8888;
+            String message = "Goodbye:" + user.getusername();
+            byte[] sendData = message.getBytes();
+            DatagramPacket packet = new DatagramPacket(sendData, sendData.length, broadcastAdress, port);
+            socket.send(packet);
+            System.out.println("Goodbye message sent successfully");
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
+        }
 
 
     public void close() {

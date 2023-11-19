@@ -22,6 +22,9 @@ public class ReceiveMessage {
         this.Envoi = new SendMessage(user);
     }
 
+    /**
+     * @throws IOException
+     */
     public void run() throws IOException{
         while (true) {
             socket.receive(receivePacket);
@@ -45,6 +48,13 @@ public class ReceiveMessage {
 
             }
             // Envoi.sendmessage("Hello",8888 , receivePacket.getAddress());
+            
+            if (message.startsWith("Goodbye:")) {
+                String username = message.substring(8);
+                user.contactList.removeUser(username);
+                System.out.println("User '" + username + "' has left the network.");
+                System.out.println(user.contactList.getContacts());
+            }
         }
     }
 
