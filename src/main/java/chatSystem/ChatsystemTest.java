@@ -42,23 +42,26 @@ public class ChatsystemTest {
 
             // Scanner to sending a message to contact
             Scanner scanner = new Scanner(System.in);
-            System.out.println("For sending a message to contact type: send username Content of the message");
+            System.out.println("For sending a message to contact type: send-username-Content of the message");
 
             while (true) {
                 String commandContent = scanner.nextLine();
-                String[] command = commandContent.split(" ");
+                String[] command = commandContent.split("-");
 
-                if (command.length == 3 && commandContent.startsWith("send ")) {
-
+                if (command.length == 3 && commandContent.startsWith("send")) {
 
                     if (user1.contactList.getContacts().contains(command[1])) {
                         sendMessage1.messageToContact(command[2], 8888, command[1]);
                     } else {
                         System.out.println("User not found in contact list\n");
                     }
-                } else {
+                } else if(commandContent.equals("goodbye")) {
+                    sendMessage1.sendGoodbye();
+                }
+                else {
                     System.out.println("Command not found or mispelled");
                 }
+
             }
         } catch (Exception e) {
             e.printStackTrace();
