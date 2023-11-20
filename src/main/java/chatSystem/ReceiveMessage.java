@@ -13,6 +13,7 @@ public class ReceiveMessage {
     private SendMessage Envoi ;
     private Utilisateur user ;
 
+    private boolean flagClose = true;
 
     public ReceiveMessage(int port , Utilisateur user) throws SocketException{
         socket = new DatagramSocket(port);
@@ -27,7 +28,7 @@ public class ReceiveMessage {
      */
     public void run() throws IOException{
         //while (true) {
-        while (ChatsystemTest.running) {
+        while (flagClose) {
             socket.receive(receivePacket);
             String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
 
@@ -55,9 +56,13 @@ public class ReceiveMessage {
                 user.contactList.removeUser(username);
                 System.out.println("User '" + username + "' has left the network.");
                 System.out.println(user.contactList.getContacts());
-                ChatsystemTest.running = false;
+                //ChatsystemTest.running = false;
             }
         }
-        socket.close();
+
+
+    }
+    public void close(){
+        flagClose = false;
     }
 }

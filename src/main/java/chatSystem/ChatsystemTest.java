@@ -15,7 +15,7 @@ public class ChatsystemTest {
 
     public static void main(String[] args) throws UnknownHostException {
         // Création de deux utilisateurs
-        Utilisateur user1 = new Utilisateur("Cristian",InetAddress.getLocalHost().toString());
+        Utilisateur user1 = new Utilisateur("Luz",InetAddress.getLocalHost().toString());
       //  Utilisateur user1 = new Utilisateur("Cristian", "192.168.1.2");
 
         try {
@@ -25,13 +25,14 @@ public class ChatsystemTest {
 
 
             // Démarrage des threads de ReceiveMessage pour chaque utilisateur
-            new Thread(() -> {
+            Thread t = new Thread(() -> {
                 try {
                     receiveMessage1.run();
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
-            }).start();
+            });
+            t.start();
 
             // Simulation de la connexion de l'utilisateur 1
             sendMessage1.connect();
@@ -61,12 +62,14 @@ public class ChatsystemTest {
                 } else if(commandContent.equals("goodbye")) {
                     sendMessage1.sendGoodbye();
                     running = false;
+                    sendMessage1.close();
+                    receiveMessage1.close();
                 }
                 else {
                     System.out.println("Command not found or mispelled");
                 }
             }
-            sendMessage1.close();
+
         } catch (Exception e) {
             e.printStackTrace();
         }
