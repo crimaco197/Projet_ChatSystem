@@ -16,12 +16,12 @@ public class ChatsystemTest {
     public static void main(String[] args) throws UnknownHostException {
         // Création de deux utilisateurs
         Utilisateur user1 = new Utilisateur("Cristian",InetAddress.getLocalHost().toString());
-        //Utilisateur user2 = new Utilisateur("User2", "192.168.1.2");
+      //  Utilisateur user1 = new Utilisateur("Cristian", "192.168.1.2");
 
         try {
             // Instanciation des objets SendMessage et ReceiveMessage pour chaque utilisateur
             SendMessage sendMessage1 = new SendMessage(user1);
-            ReceiveMessage receiveMessage1 = new ReceiveMessage(8888 , user1);
+            ReceiveMessage receiveMessage1 = new ReceiveMessage(2222 , user1);
 
 
             // Démarrage des threads de ReceiveMessage pour chaque utilisateur
@@ -54,7 +54,7 @@ public class ChatsystemTest {
                 if (command.length == 3 && commandContent.startsWith("send")) {
 
                     if (user1.contactList.getContacts().contains(command[1])) {
-                        sendMessage1.messageToContact(command[2], 8888, command[1]);
+                        sendMessage1.messageToContact(command[2], 2222, command[1]);
                     } else {
                         System.out.println("User not found in contact list\n");
                     }

@@ -41,7 +41,7 @@ public class ReceiveMessage {
                     user.contactList.adduser(message.substring(9), senderAddress);
                     System.out.println(user.contactList.getContacts());
                 }
-                Envoi.sendmessage("New_User_Response:"+user.getusername(),8888 , receivePacket.getAddress());
+                Envoi.sendmessage("New_User_Response:"+user.getusername(),2222 , receivePacket.getAddress());
             }
             if(message.startsWith("New_User_Response:")){
                 user.contactList.adduser(message.substring(18), senderAddress);

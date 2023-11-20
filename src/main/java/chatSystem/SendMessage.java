@@ -19,7 +19,7 @@ public class SendMessage {
     public void connect() {
         try {
             InetAddress broadcastAddress = InetAddress.getByName("255.255.255.255");
-            int port = 8888;
+            int port = 2222;
             String message = "New_User:" + user.getusername();
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData, sendData.length, broadcastAddress, port);
@@ -51,7 +51,7 @@ public class SendMessage {
     public void sendGoodbye(){
         try{
             InetAddress broadcastAdress = InetAddress.getByName("255.255.255.255");
-            int port = 8888;
+            int port = 2222;
             String message = "Goodbye:" + user.getusername();
             byte[] sendData = message.getBytes();
             DatagramPacket packet = new DatagramPacket(sendData, sendData.length, broadcastAdress, port);
