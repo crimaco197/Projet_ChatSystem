@@ -10,9 +10,12 @@ import java.util.Scanner;
 
 public class ChatsystemTest {
 
+    // Variable de control para el estado de ejecución del programa
+    static volatile boolean running = true;
+
     public static void main(String[] args) throws UnknownHostException {
         // Création de deux utilisateurs
-        Utilisateur user1 = new Utilisateur("oussama",InetAddress.getLocalHost().toString());
+        Utilisateur user1 = new Utilisateur("Cristian",InetAddress.getLocalHost().toString());
         //Utilisateur user2 = new Utilisateur("User2", "192.168.1.2");
 
         try {
@@ -44,7 +47,7 @@ public class ChatsystemTest {
             Scanner scanner = new Scanner(System.in);
             System.out.println("For sending a message to contact type: send-username-Content of the message");
 
-            while (true) {
+            while (running) {
                 String commandContent = scanner.nextLine();
                 String[] command = commandContent.split("-");
 
@@ -57,12 +60,13 @@ public class ChatsystemTest {
                     }
                 } else if(commandContent.equals("goodbye")) {
                     sendMessage1.sendGoodbye();
+                    running = false;
                 }
                 else {
                     System.out.println("Command not found or mispelled");
                 }
-
             }
+            sendMessage1.close();
         } catch (Exception e) {
             e.printStackTrace();
         }

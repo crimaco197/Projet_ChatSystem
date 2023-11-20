@@ -26,7 +26,8 @@ public class ReceiveMessage {
      * @throws IOException
      */
     public void run() throws IOException{
-        while (true) {
+        //while (true) {
+        while (ChatsystemTest.running) {
             socket.receive(receivePacket);
             String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
 
@@ -54,8 +55,9 @@ public class ReceiveMessage {
                 user.contactList.removeUser(username);
                 System.out.println("User '" + username + "' has left the network.");
                 System.out.println(user.contactList.getContacts());
+                ChatsystemTest.running = false;
             }
         }
+        socket.close();
     }
-
 }
