@@ -5,9 +5,12 @@ public class Utilisateur {
     private String username ;
     private String IPadresse ;
 
+    public ContactDiscovery contactList;
+
     public Utilisateur (String username , String IPadresse){
         this.username = username ;
         this.IPadresse = IPadresse ;
+        this.contactList = new ContactDiscovery();
     }
 
     public void setusername(String username ){
@@ -21,5 +24,5 @@ public class Utilisateur {
     public String getIPadresse(){
         return this.IPadresse ;
     }
-    
+
 }

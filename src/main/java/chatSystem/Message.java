@@ -8,7 +8,7 @@ public class Message {
     {
         this.user = user;
         this.message = message;
-        
+
 
     }
 
@@ -21,5 +21,5 @@ public class Message {
     public Utilisateur getEmetteur() {
         return this.user;
     }
-    
+
 }
