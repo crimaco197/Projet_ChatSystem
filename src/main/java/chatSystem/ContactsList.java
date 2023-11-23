@@ -6,28 +6,28 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
-public class ContactDiscovery {
+public class ContactsList {
 
     HashMap<String,String> Contacts ;
 
-    public ContactDiscovery (){
+    public ContactsList(){
         Contacts = new HashMap<> ();
     }
 
     public ArrayList<String> getContacts() {
-        ArrayList<String> listenames = new ArrayList<>();
+        ArrayList<String> listNames = new ArrayList<>();
         for (Map.Entry<String, String> entry : Contacts.entrySet()) {
             String username = entry.getKey();
-            listenames.add(username);
+            listNames.add(username);
         }
-        return listenames;
+        return listNames;
     }
 
-    public void adduser(String username , String IPadresse){
-        Contacts.put(username, IPadresse);
+    public void adduser(String username , String IPAddress){
+        Contacts.put(username, IPAddress);
     }
 
-    public InetAddress getIPAdress(String username) throws UnknownHostException {
+    public InetAddress getIPAddress(String username) throws UnknownHostException {
         return InetAddress.getByName(Contacts.get(username));
     }
 

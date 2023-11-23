@@ -3,14 +3,14 @@ package chatSystem;
 public class Utilisateur {
 
     private String username ;
-    private String IPadresse ;
+    //private String IPadresse ;
 
-    public ContactDiscovery contactList;
+    public ContactsList contactList;
 
-    public Utilisateur (String username , String IPadresse){
+    public Utilisateur (String username /*,String IPadresse*/){
         this.username = username ;
-        this.IPadresse = IPadresse ;
-        this.contactList = new ContactDiscovery();
+        //this.IPadresse = IPadresse ;
+        this.contactList = new ContactsList();
     }
 
     public void setusername(String username ){
@@ -21,8 +21,8 @@ public class Utilisateur {
         return this.username ;
     }
 
-    public String getIPadresse(){
+    /*public String getIPadresse(){
         return this.IPadresse ;
-    }
+    }*/
 
 }

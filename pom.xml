@@ -34,10 +34,6 @@
             <artifactId>maven-plugin-api</artifactId>
             <version>3.9.5</version>
         </dependency>
-
     </dependencies>
-
-
-
 
 </project>

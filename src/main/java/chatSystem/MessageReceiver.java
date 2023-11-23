@@ -5,58 +5,53 @@ import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.SocketException;
 
-public class ReceiveMessage {
-
+public class MessageReceiver {
+    private Utilisateur user;
     private DatagramSocket socket ;
     private DatagramPacket receivePacket ;
     //private static ContactDiscovery ContactList;
-    private SendMessage Envoi ;
-    private Utilisateur user ;
+    private MessageSender sender;
+
 
     private boolean flagClose = true;
 
-    public ReceiveMessage(int port , Utilisateur user) throws SocketException{
+    public MessageReceiver(int port , Utilisateur user) throws SocketException{
         socket = new DatagramSocket(port);
         receivePacket = new DatagramPacket(new byte[1024], 1024);
-        //ContactList = new ContactDiscovery();
         this.user= user;
-        this.Envoi = new SendMessage(user);
+        this.sender = new MessageSender(port, user);
     }
 
-    /**
-     * @throws IOException
-     */
     public void run() throws IOException{
-        //while (true) {
+
         while (flagClose) {
             socket.receive(receivePacket);
             String message = new String(receivePacket.getData(), 0, receivePacket.getLength());
 
             String senderAddress = receivePacket.getAddress().getHostAddress();
             int senderPort = receivePacket.getPort();
-            System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : "+  message );
-            System.out.println(user.contactList.getContacts());
+            //System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : "+  message );
+            System.out.println(message );
+        //    System.out.println(user.contactList.getContacts());
 
             if(message.startsWith("New_User:")){
                 if (!user.contactList.getContacts().contains(message.substring(9))) {
                     user.contactList.adduser(message.substring(9), senderAddress);
-                    System.out.println(user.contactList.getContacts());
+               //     System.out.println(user.contactList.getContacts());
                 }
-                Envoi.sendmessage("New_User_Response:"+user.getusername(),2222 , receivePacket.getAddress());
+                sender.sendMessage("New_User_Response:"+user.getusername(),3333 , receivePacket.getAddress());
             }
             if(message.startsWith("New_User_Response:")){
                 user.contactList.adduser(message.substring(18), senderAddress);
                 System.out.println(user.contactList.getContacts());
 
             }
-            // Envoi.sendmessage("Hello",8888 , receivePacket.getAddress());
             
             if (message.startsWith("Goodbye:")) {
                 String username = message.substring(8);
                 user.contactList.removeUser(username);
                 System.out.println("User '" + username + "' has left the network.");
-                System.out.println(user.contactList.getContacts());
-                //ChatsystemTest.running = false;
+             //   System.out.println(user.contactList.getContacts());
             }
         }
 

@@ -7,7 +7,7 @@ public class User {
 
     String username;
     String IP;
-    ContactDiscovery ContactList = new ContactDiscovery();
+    ContactsList ContactList = new ContactsList();
     private DatagramSocket socket;
 
     public User(String username, String IP) throws SocketException {
