@@ -40,16 +40,16 @@ public class ChatsystemTest {
 
             // Scanner to sending a message to contact
             Scanner scanner = new Scanner(System.in);
-            System.out.println("For sending a message to contact type: send-username-Content of the message");
+            System.out.println("For sending a message to contact type: s-username-Content of the message");
 
             while (running) {
                 String commandContent = scanner.nextLine();
                 String[] command = commandContent.split("-");
 
-                if (command.length == 3 && commandContent.startsWith("send")) {
+                if (command.length == 3 && commandContent.startsWith("s")) {
 
                     if (user.contactList.getContacts().contains(command[1])) {
-                        sender.messageToContact(command[2], 2222, command[1]);
+                        sender.messageToContact(user.getusername() + " : "+ command[2], 2222, command[1]);
                     } else {
                         System.out.println("User not found in contact list\n");
                     }

@@ -31,27 +31,25 @@ public class MessageReceiver {
             String senderAddress = receivePacket.getAddress().getHostAddress();
             int senderPort = receivePacket.getPort();
             //System.out.println("Greetings, " + senderAddress + " : " + senderPort + " : "+  message );
-            System.out.println(message );
+            //System.out.println(message );s
         //    System.out.println(user.contactList.getContacts());
 
             if(message.startsWith("New_User:")){
                 if (!user.contactList.getContacts().contains(message.substring(9))) {
                     user.contactList.adduser(message.substring(9), senderAddress);
-               //     System.out.println(user.contactList.getContacts());
+                //    System.out.println(user.contactList.getContacts());
                 }
                 sender.sendMessage("New_User_Response:"+user.getusername(),3333 , receivePacket.getAddress());
-            }
-            if(message.startsWith("New_User_Response:")){
+            } else if(message.startsWith("New_User_Response:")){
                 user.contactList.adduser(message.substring(18), senderAddress);
-                System.out.println(user.contactList.getContacts());
-
-            }
-            
-            if (message.startsWith("Goodbye:")) {
+                System.out.println("Active Contacts : " + user.contactList.getContacts());
+            } else if (message.startsWith("Goodbye:")) {
                 String username = message.substring(8);
                 user.contactList.removeUser(username);
                 System.out.println("User '" + username + "' has left the network.");
-             //   System.out.println(user.contactList.getContacts());
+                System.out.println("Active Contacts : " + user.contactList.getContacts());
+            } else {
+                System.out.println(message);
             }
         }
 
